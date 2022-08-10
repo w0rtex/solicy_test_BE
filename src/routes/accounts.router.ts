@@ -8,7 +8,7 @@ export const accountsRouter = express.Router();
 
 accountsRouter.use(express.json());
 
-accountsRouter.get("/", async (_req: Request, res: Response) => {
+accountsRouter.get("/accounts/", async (_req: Request, res: Response) => {
     // Handle errors
     try {
         // Get all accounts from the database
@@ -24,15 +24,14 @@ accountsRouter.get("/", async (_req: Request, res: Response) => {
 
 // GET routes
 // Find single account by id
-accountsRouter.get("/:id", async (req: Request, res: Response) => {
+accountsRouter.get("/accounts/:id", async (req: Request, res: Response) => {
     // Handle requested ID
     const id = req?.params?.id;
+    console.log(id)
 
     try {
-        const query = { _id: new ObjectId(id) };
-
         // Find by ID
-        const account = await collections.accounts!.findOne(query);
+        const account = await collections.accounts!.findOne({ simpleId: id });
 
         if (account) {
             res.status(200).send(account);
@@ -46,7 +45,7 @@ accountsRouter.get("/:id", async (req: Request, res: Response) => {
 });
 
 // Insert query
-accountsRouter.post("/", async (req: Request, res: Response) => {
+accountsRouter.post("/accounts/", async (req: Request, res: Response) => {
     try {
         // Template
         const newAccount = req.body as Account;
@@ -76,7 +75,7 @@ accountsRouter.post("/", async (req: Request, res: Response) => {
 });
 
 // PUT route
-accountsRouter.put("/:id", async (req: Request, res: Response) => {
+accountsRouter.put("/accounts/:id", async (req: Request, res: Response) => {
     const id = req?.params?.id;
 
     try {
@@ -98,7 +97,7 @@ accountsRouter.put("/:id", async (req: Request, res: Response) => {
 });
 
 // DELETE route
-accountsRouter.delete("/:id", async (req: Request, res: Response) => {
+accountsRouter.delete("/accounts/:id", async (req: Request, res: Response) => {
     const id = req?.params?.id;
 
     try {

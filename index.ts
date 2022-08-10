@@ -6,13 +6,13 @@ import * as dotenv from "dotenv";
 // Pull the data from .env file
 dotenv.config();
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8080;
 const app = express();
 
 connectToDatabase()
     .then(() => {
-        // Listen for accounts requests from the main page
-        app.use("/", accountsRouter);
+        // Listen for accounts requests from http://localhost:8080/api/
+        app.use("/api/", accountsRouter);
 
         app.listen(port, () => {
             console.log(`Server started at http://localhost:${port}`);
