@@ -6,5 +6,6 @@ export default interface Account {
     name: string,
     createdOn?: Date,
     owner: string,
+    updatedOn?: Date,
     id?: ObjectId
 }

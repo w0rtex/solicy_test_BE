@@ -80,11 +80,14 @@ accountsRouter.post("/", async (req: Request, res: Response) => {
 
 // PUT route
 accountsRouter.put("/:id", async (req: Request, res: Response) => {
-    const id = req.params.id;
+    const id = parseInt(req.params.id);
+
+    // Update updateOn date
+    req.body.updatedOn = new Date();
 
     try {
         const updatedAccount: Account = req.body as Account;
-        const query = { _id: new ObjectId(id) };
+        const query = { simpleId: id };
 
         // Update query
         const result = await collections.accounts!.updateOne(query, { $set: updatedAccount });
