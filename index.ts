@@ -12,7 +12,8 @@ const app = express();
 connectToDatabase()
     .then(() => {
         // Listen for accounts requests from http://localhost:8080/api/
-        app.use("/api/", accountsRouter);
+        // Accounts router
+        app.use("/api/accounts", accountsRouter);
 
         app.listen(port, () => {
             console.log(`Server started at http://localhost:${port}`);

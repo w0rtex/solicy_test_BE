@@ -8,7 +8,7 @@ export const accountsRouter = express.Router();
 
 accountsRouter.use(express.json());
 
-accountsRouter.get("/accounts/", async (_req: Request, res: Response) => {
+accountsRouter.get("/", async (_req: Request, res: Response) => {
     // Handle errors
     try {
         // Get all accounts from the database
@@ -24,17 +24,21 @@ accountsRouter.get("/accounts/", async (_req: Request, res: Response) => {
 
 // GET routes
 // Find single account by id
-accountsRouter.get("/accounts/:id", async (req: Request, res: Response) => {
+accountsRouter.get("/:id", async (req: Request, res: Response) => {
     // Handle requested ID
-    const id = req?.params?.id;
-    console.log(id)
+    const id = parseInt(req.params.id);
 
     try {
         // Find by ID
-        const account = await collections.accounts!.findOne({ simpleId: id });
+        const account = await collections.accounts!.findOne( { simpleId: id } );
 
+        // Handle account
         if (account) {
+            // Send OK and the account if it exists
             res.status(200).send(account);
+        } else {
+            // Send 404 if not found
+            res.status(404).send("Account not found");
         }
     } catch (error) {
 
@@ -45,7 +49,7 @@ accountsRouter.get("/accounts/:id", async (req: Request, res: Response) => {
 });
 
 // Insert query
-accountsRouter.post("/accounts/", async (req: Request, res: Response) => {
+accountsRouter.post("/", async (req: Request, res: Response) => {
     try {
         // Template
         const newAccount = req.body as Account;
@@ -75,8 +79,8 @@ accountsRouter.post("/accounts/", async (req: Request, res: Response) => {
 });
 
 // PUT route
-accountsRouter.put("/accounts/:id", async (req: Request, res: Response) => {
-    const id = req?.params?.id;
+accountsRouter.put("/:id", async (req: Request, res: Response) => {
+    const id = req.params.id;
 
     try {
         const updatedAccount: Account = req.body as Account;
@@ -97,8 +101,8 @@ accountsRouter.put("/accounts/:id", async (req: Request, res: Response) => {
 });
 
 // DELETE route
-accountsRouter.delete("/accounts/:id", async (req: Request, res: Response) => {
-    const id = req?.params?.id;
+accountsRouter.delete("/:id", async (req: Request, res: Response) => {
+    const id = req.params.id;
 
     try {
         const query = { _id: new ObjectId(id) };
